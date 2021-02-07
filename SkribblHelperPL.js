@@ -1,3 +1,6 @@
+//Author: Ereno
+//you can find me on Discord: Ereno#9339
+
 //create window
 var windowWithWords = document.createElement('div');
 document.body.appendChild(windowWithWords);
