@@ -1,0 +1,20 @@
+{
+
+  "manifest_version": 2,
+  "name": "SkribblHelperPL",
+  "version": "1.0",
+
+  "description": "Podpowiadanie możliwych haseł w skribbl.io.",
+
+  "icons": {
+    "48": "icons/SkribblHelperPL.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://skribbl.io/*"],
+      "js": ["PossibleWordsPL.js", "SkribblHelperPL.js"]
+    }
+  ]
+
+}
