@@ -1,70 +1,10 @@
-var PossibleWordsPL = [
-	{
-		"length": 3,
-		"words": ["łuk"]
-	}, 
-	{
-		"length": 4,
-		"words": ["Azja"]
-	}, 
-	{
-		"length": 5,
-		"words": ["grill", "gołąb", "Sonic"]
-	}, 
-	{
-		"length": 6,
-		"words": ["łopata", "miotła", "orbita"]
-	}, 
-	{
-		"length": 7,
-		"words": ["bazooka", "speaker"]
-	}, 
-	{
-		"length": 8,
-		"words": ["babeczka", "podstawa", "antylopa", "recepcja"]
-	}, 
-	{
-		"length": 9,
-		"words": ["King Kong", "spaghetti", "korniszon", "marynarka", "Wolverine"]
-	}, 
-	{
-		"length": 10,
-		"words": ["Steve Jobs"]
-	}, 
-	{
-		"length": 11,
-		"words": ["konik polny"]
-	}, 
-	{
-		"length": 12,
-		"words": []
-	}, 
-	{
-		"length": 13,
-		"words": []
-	}, 
-	{
-		"length": 14,
-		"words": []
-	}, 
-	{
-		"length": 15,
-		"words": ["Mark Zuckerberg"]
-	}, 
-	{
-		"length": 16,
-		"words": []
-	}, 
-	{
-		"length": 17,
-		"words": []
-	}, 
-	{
-		"length": 18,
-		"words": []
-	}, 
-	{
-		"length": 19,
-		"words": []
-	}
-]
+var PossibleWordsPL_2 = [];
+var PossibleWordsPL_3 = ["łuk"];
+var PossibleWordsPL_4 = ["Azja"];
+var PossibleWordsPL_5 = ["grill", "gołąb", "Sonic"];
+var PossibleWordsPL_6 = ["łopata", "miotła", "orbita"];
+var PossibleWordsPL_7 = ["bazooka", "speaker"];
+var PossibleWordsPL_8 = ["babeczka", "podstawa", "antylopa", "recepcja"];
+var PossibleWordsPL_9 = ["test1","test test","test3","King Kong", "spaghetti", "korniszon", "marynarka", "Wolverine","tesy tesy"];
+var PossibleWordsPL_10 = ["Steve Jobs"];
+var PossibleWordsPL_11 = ["konik polny"];
