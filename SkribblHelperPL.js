@@ -49,46 +49,58 @@ setInterval(() => {
         case 25: possibleWordsTable = PossibleWordsPL_25; break;
     } 
 
-    //TO DO: check why it's excluding words slow (maybe 500ms interval)
-
-    //get amount of spaces in word
+    //get spaces in word
     var spacesInWord = [];
     for(var i=0;i<word.length;i++) 
     {
-        if (word[i] === " ") 
+        if (word[i] == " ") 
         {
             spacesInWord.push(i);
         }
     }
 
-    //we can limit list of words by amount and indexes of spaces in word
-    if (spacesInWord.length > 0)
-    {
-        for (var y in possibleWordsTable)
-        {
-            checkingWord = possibleWordsTable[y];
-            for (var z in spacesInWord)
-            {
-                if(checkingWord[spacesInWord[z]] != ' ')
-                {
-                    possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
-                    continue;
-                }
-            }
-
-        }
-    }
-    else
+    //we can limit list of possible words, when there is no spaces in word
+    if (spacesInWord.length == 0)
     {
         for (var q in possibleWordsTable)
         {
-            checkingWord = possibleWordsTable[y];
+            checkingWord = possibleWordsTable[q];
             if (checkingWord.indexOf(' ') !== -1) 
             {
                 possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
             }
         }
     }
+
+    //get latters and spaces in word
+    var lattersOrSpacesInWord = [];
+
+    for(var i=0;i<word.length;i++)
+    {
+        if (word[i] != "_") 
+        {
+            var arrayInside = [i, word[i]];
+            lattersOrSpacesInWord.push(arrayInside);
+        }
+    }
+
+    //we can limit list of words by index of spaces and latters in word
+    if (lattersOrSpacesInWord.length > 0)
+    {
+        for (var y in possibleWordsTable)
+        {
+            checkingWord = possibleWordsTable[y];
+            for(var j=0;j<lattersOrSpacesInWord.length;j++)
+            {
+                if(checkingWord[lattersOrSpacesInWord[j][0]] != lattersOrSpacesInWord[j][1])
+                {
+                    possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
+                    continue;
+                }
+            }
+        }
+    }
+
 
     //adding possibleWordsTable to window
     for (var x in possibleWordsTable)
