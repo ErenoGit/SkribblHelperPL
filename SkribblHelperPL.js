@@ -95,7 +95,7 @@ setInterval(() => {
                 if(checkingWord[lattersOrSpacesInWord[j][0]] != lattersOrSpacesInWord[j][1])
                 {
                     possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
-                    continue;
+                    break;
                 }
             }
         }
