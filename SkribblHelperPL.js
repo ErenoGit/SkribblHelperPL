@@ -49,11 +49,9 @@ setInterval(() => {
         case 25: possibleWordsTable = PossibleWordsPL_25; break;
     } 
 
-
-    //if word have space char, then we can limit list of words by first space index
-    //TO DO: exclude words without spaces when there is space in guessing word
     //TO DO: check why it's excluding words slow (maybe 500ms interval)
 
+    //get amount of spaces in word
     var spacesInWord = [];
     for(var i=0;i<word.length;i++) 
     {
@@ -63,12 +61,12 @@ setInterval(() => {
         }
     }
 
+    //we can limit list of words by amount and indexes of spaces in word
     if (spacesInWord.length > 0)
     {
         for (var y in possibleWordsTable)
         {
             checkingWord = possibleWordsTable[y];
-
             for (var z in spacesInWord)
             {
                 if(checkingWord[spacesInWord[z]] != ' ')
@@ -80,7 +78,17 @@ setInterval(() => {
 
         }
     }
-
+    else
+    {
+        for (var q in possibleWordsTable)
+        {
+            checkingWord = possibleWordsTable[y];
+            if (checkingWord.indexOf(' ') !== -1) 
+            {
+                possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
+            }
+        }
+    }
 
     //adding possibleWordsTable to window
     for (var x in possibleWordsTable)
