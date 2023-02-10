@@ -9,13 +9,29 @@ windowWithWords.style = "position: absolute; top: 0px; right: 0px; width: 250px;
 //set interval 0,5 second
 setInterval(() => {
     var suggestedWords = "";
+    var word = "";
+    
     //get current word to guess
-    var word = document.getElementById("currentWord").innerText;
+    var gameWord = document.getElementById("game-word");
+    var hints = gameWord.getElementsByClassName("hints")[0];
+    var container = hints.getElementsByClassName("container")[0].children;
+
+    if(container.innerHTML == null || container.innerHTML == undefined)
+        windowWithWords.innerHTML = "";
+
+    for(i = 0; i < container.length; i++)
+    {
+        if(container[i].className == "word-length")
+            continue;
+        
+        var childDiv = container[i];
+        word += childDiv.textContent;
+    }
+    	
     //if word don't have _ char it means game not started or you are drawing, not typing
     if (word.includes("_") === false)
-    {
         return false;
-    }
+	
     var possibleWordsTable = [];
 
     //switch case for possible words tables by length
