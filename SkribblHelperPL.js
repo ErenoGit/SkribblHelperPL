@@ -14,22 +14,24 @@ setInterval(() => {
     //get current word to guess
     var gameWord = document.getElementById("game-word");
     var hints = gameWord.getElementsByClassName("hints")[0];
-    var container = hints.getElementsByClassName("container")[0].children;
+    var container = hints.getElementsByClassName("container")[0];
 
     if(container.innerHTML == null || container.innerHTML == undefined)
         return false;
 
-    for(i = 0; i < container.length; i++)
+    var containerChildrens = container.getElementsByTagName("div");
+
+    for(i = 0; i < containerChildrens.length; i++)
     {
-        if(container[i].className == "word-length")
+        if(containerChildrens[i].className == "word-length")
             continue;
         
-        var childDiv = container[i];
+        var childDiv = containerChildrens[i];
         word += childDiv.textContent;
     }
     	
     //if word don't have _ char it means game not started or you are drawing, not typing
-    if (word.includes("_") === false)
+    if (word.includes("_") === false || word.length === 0)
         return false;
 	
     var possibleWordsTable = [];
