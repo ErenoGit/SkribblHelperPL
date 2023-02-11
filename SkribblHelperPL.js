@@ -17,7 +17,7 @@ setInterval(() => {
     var container = hints.getElementsByClassName("container")[0].children;
 
     if(container.innerHTML == null || container.innerHTML == undefined)
-        windowWithWords.innerHTML = "";
+        return false;
 
     for(i = 0; i < container.length; i++)
     {
