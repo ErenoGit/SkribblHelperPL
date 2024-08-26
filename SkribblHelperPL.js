@@ -1,131 +1,108 @@
-//Author: Ereno
-//you can find me on Discord: Ereno#9339
-
-//create window
-var windowWithWords = document.createElement('div');
-document.body.appendChild(windowWithWords);
-windowWithWords.style = "position: absolute; top: 0px; right: 0px; width: 250px; height: 100%; background-color: rgba(0,0,0,0.3); color: rgba(255,255,255,0.5); font-size: 16px; overflow-y: scroll; overflow-x: hidden;)";
-
-//set interval 0,5 second
-setInterval(() => {
-    var suggestedWords = "";
-    var word = "";
-    
-    //get current word to guess
-    var gameWord = document.getElementById("game-word");
-    var hints = gameWord.getElementsByClassName("hints")[0];
-    var container = hints.getElementsByClassName("container")[0];
-
-    if(container.innerHTML == null || container.innerHTML == undefined)
-        return false;
-
-    var containerChildrens = container.getElementsByTagName("div");
-
-    for(i = 0; i < containerChildrens.length; i++)
-    {
-        if(containerChildrens[i].className == "word-length")
-            continue;
-        
-        var childDiv = containerChildrens[i];
-        word += childDiv.textContent;
+// Create a window for displaying hints
+document.body.appendChild(Object.assign(
+    document.createElement('div'), {
+        id: 'hintslist',
+        style: `
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 250px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        `
     }
-    	
-    //if word don't have _ char it means game not started or you are drawing, not typing
-    if (word.includes("_") === false || word.length === 0)
+  ));
+
+function HintsList(){
+    // Select the container element that holds the hints
+    const gameWord = document.querySelector(".hints>.container");
+
+    // Check if the container element exists
+    if(!gameWord.innerHTML){
         return false;
-	
-    var possibleWordsTable = [];
-
-    //switch case for possible words tables by length
-    //TO DO: make it better!
-    switch(word.length) 
-    {
-        case 1: possibleWordsTable = PossibleWordsPL_1; break;
-        case 2: possibleWordsTable = PossibleWordsPL_2; break;
-        case 3: possibleWordsTable = PossibleWordsPL_3; break;
-        case 4: possibleWordsTable = PossibleWordsPL_4; break;
-        case 5: possibleWordsTable = PossibleWordsPL_5; break;
-        case 6: possibleWordsTable = PossibleWordsPL_6; break;
-        case 7: possibleWordsTable = PossibleWordsPL_7; break;
-        case 8: possibleWordsTable = PossibleWordsPL_8; break;
-        case 9: possibleWordsTable = PossibleWordsPL_9; break;
-        case 10: possibleWordsTable = PossibleWordsPL_10; break;
-        case 11: possibleWordsTable = PossibleWordsPL_11; break;
-        case 12: possibleWordsTable = PossibleWordsPL_12; break;
-        case 13: possibleWordsTable = PossibleWordsPL_13; break;
-        case 14: possibleWordsTable = PossibleWordsPL_14; break;
-        case 15: possibleWordsTable = PossibleWordsPL_15; break;
-        case 16: possibleWordsTable = PossibleWordsPL_16; break;
-        case 17: possibleWordsTable = PossibleWordsPL_17; break;
-        case 18: possibleWordsTable = PossibleWordsPL_18; break;
-        case 19: possibleWordsTable = PossibleWordsPL_19; break;
-        case 20: possibleWordsTable = PossibleWordsPL_20; break;
-        case 21: possibleWordsTable = PossibleWordsPL_21; break;
-        case 22: possibleWordsTable = PossibleWordsPL_22; break;
-        case 23: possibleWordsTable = PossibleWordsPL_23; break;
-        case 24: possibleWordsTable = PossibleWordsPL_24; break;
-        case 25: possibleWordsTable = PossibleWordsPL_25; break;
-    } 
-
-    //get spaces in word
-    var spacesInWord = [];
-    for(var i=0;i<word.length;i++) 
-    {
-        if (word[i] == " ") 
-        {
-            spacesInWord.push(i);
-        }
     }
 
-    //we can limit list of possible words, when there is no spaces in word
-    if (spacesInWord.length == 0)
-    {
-        for (var q in possibleWordsTable)
-        {
-            checkingWord = possibleWordsTable[q];
-            if (checkingWord.indexOf(' ') !== -1) 
-            {
-                possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
+    // Select all child elements with the class 'hint'
+    const hints = gameWord.querySelectorAll(".hint");
+
+    // Build the 'word' string from the text of 'hint' elements
+    const word = Array.from(hints)
+        .map(hint => hint.textContent)
+        .join('');
+
+    // Check if 'word' contains "_" or if it is empty
+    if (!word.includes("_")) {
+        document.querySelector('#hintslist').innerHTML = ""; // Clear hintsList if 'word' does not meet the conditions
+        return;
+    }
+
+    // Determine possible words based on the length of 'word'
+    const possibleWordsTable = (word.length >= 1 && word.length <= 25) 
+        ? PossibleWordsPL[word.length - 1] 
+        : []; // Default to empty array if the word length is out of range
+
+    // Collect positions of spaces and letters in 'word'
+    const spacesInWord = [];
+    const lattersOrSpacesInWord = [];
+
+    for (let i = 0; i < word.length; i++) {
+        if (word[i] !== '_') {
+            lattersOrSpacesInWord.push([i, word[i]]);
+            if (word[i] === ' ') {
+                spacesInWord.push([i, word[i]]);
             }
         }
     }
 
-    //get latters and spaces in word
-    var lattersOrSpacesInWord = [];
-
-    for(var i=0;i<word.length;i++)
-    {
-        if (word[i] != "_") 
-        {
-            var arrayInside = [i, word[i]];
-            lattersOrSpacesInWord.push(arrayInside);
+    // Filter possible words if there are no spaces in 'word'
+    if (spacesInWord.length === 0) {
+        for (let i = 0; i < possibleWordsTable.length; i++) {
+            const checkingWord = possibleWordsTable[i];
+            if (checkingWord.includes(' ')) {
+                possibleWordsTable.splice(i, 1);
+                i--; // Adjust the index after removal
+            }
         }
     }
 
-    //we can limit list of words by index of spaces and latters in word
-    if (lattersOrSpacesInWord.length > 0)
-    {
-        for (var y in possibleWordsTable)
-        {
-            checkingWord = possibleWordsTable[y];
-            for(var j=0;j<lattersOrSpacesInWord.length;j++)
-            {
-                if(checkingWord[lattersOrSpacesInWord[j][0]] != lattersOrSpacesInWord[j][1])
-                {
-                    possibleWordsTable.splice(possibleWordsTable.indexOf(checkingWord), 1);
+    // Filter possible words by index of spaces and letters in 'word'
+    if (lattersOrSpacesInWord.length > 0) {
+        for (let y = 0; y < possibleWordsTable.length; y++) {
+            const checkingWord = possibleWordsTable[y];
+            let isValid = true;
+            for (let j = 0; j < lattersOrSpacesInWord.length; j++) {
+                const [index, letter] = lattersOrSpacesInWord[j];
+                if (checkingWord[index] !== letter) {
+                    isValid = false;
                     break;
                 }
             }
+            if (!isValid) {
+                possibleWordsTable.splice(y, 1);
+                y--; // Adjust the index after removal
+            }
         }
     }
 
+    // Create the string of suggested words
+    const suggestedWords = possibleWordsTable.join("<br>");
 
-    //adding possibleWordsTable to window
-    for (var x in possibleWordsTable)
-    {
-        suggestedWords += possibleWordsTable[x] + "<br>";
+    // Display the suggested words in the window
+    document.querySelector('#hintslist').innerHTML = suggestedWords;
+};
+
+const callback = (mutationsList) => {
+    for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            HintsList();
+        }
     }
-    
-    //...and show suggestedWords on window
-    windowWithWords.innerHTML = suggestedWords;
-},500);
+};
+const config = {childList: true,subtree: true};
+const observer = new MutationObserver(callback);
+const targetNode = document.querySelector(".hints>.container");
+observer.observe(targetNode, config);
